@@ -4,7 +4,7 @@ const city = document.querySelector('#city');
 const temperature = document.querySelector('#temperature');
 const details = document.querySelector('#details');
 
-let coordonates = [];
+let coordinates = [];
 
 /*****PRINCIPALE FUNCTION***
 ***************************/
@@ -12,21 +12,20 @@ async function fetchCoordinates(cityChoice) {
     try {
         const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${cityChoice}&format=json&addressdetails=1&limit=1`);
         const dataCoordinates = await response.json();
-        console.log(dataCoordinates);
 
-        if (dataCoordinates.lenght !== 0) {
-            for (const element of dataCoordinates) {
-                city.innerText = element.name;
-                gps.innerText = `Coordonnées GPS: ${element.lat}, ${element.lon}`;
-                coordonates.push(element.lat);
-                coordonates.push(element.lon);
-                }        
-        } else { 
-            city.innerText = "Ville non-trouvée";
-        }
-        
+        city.innerText = dataCoordinates[0].name;
+        gps.innerText = `Coordonnées GPS: ${dataCoordinates[0].lat}, ${dataCoordinates[0].lon}`;
+        coordinates.push(dataCoordinates[0].lat);
+        coordinates.push(dataCoordinates[0].lon);
+
+        fetchWeather(coordinates[0], coordinates[1]);
+
     } catch (error) {
         console.error("Failed to catch data :", error);
+        city.innerText = "Ville non-trouvée";
+        gps.innerText = "-";
+        temperature.innerText = "-";
+        details.innerText = "Vérifiez le nom de la ville";
     }
 }
 
@@ -49,10 +48,8 @@ async function fetchWeather(latitude, longitude) {
 
 /****START*****
 **************/
-buttonValidate.addEventListener('click', async () => {
-    coordonates = [];
+buttonValidate.addEventListener('click', () => {
+    coordinates = [];
     const cityInput = document.querySelector('#cityInput').value;
-    await fetchCoordinates(cityInput);
-    console.log(coordonates);
-    fetchWeather(coordonates[0], coordonates[1]); // Ca ne fonctionne pas sans que je rajoute un await (+async) devant la fonction fetchCoordinates car on doit attendre ses push dans le tableau avant de pouvoir les exploiter dans lafocntion suivante.
+    fetchCoordinates(cityInput);
 })
