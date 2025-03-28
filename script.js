@@ -2,6 +2,7 @@ const buttonValidate = document.querySelector('button');
 const gps = document.querySelector('#gps');
 const city = document.querySelector('#city');
 const temperature = document.querySelector('#temperature');
+const details = document.querySelector('#details');
 
 let coordonates = [];
 
@@ -11,12 +12,17 @@ async function fetchCoordinates(cityChoice) {
     try {
         const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${cityChoice}&format=json&addressdetails=1&limit=1`);
         const dataCoordinates = await response.json();
+        console.log(dataCoordinates);
 
-        for (const element of dataCoordinates) {
-            city.innerText = element.name;
-            gps.innerText = `Coordonnées GPS: ${element.lat}, ${element.lon}`;
-            coordonates.push(element.lat);
-            coordonates.push(element.lon);
+        if (dataCoordinates.lenght !== 0) {
+            for (const element of dataCoordinates) {
+                city.innerText = element.name;
+                gps.innerText = `Coordonnées GPS: ${element.lat}, ${element.lon}`;
+                coordonates.push(element.lat);
+                coordonates.push(element.lon);
+                }        
+        } else { 
+            city.innerText = "Ville non-trouvée";
         }
         
     } catch (error) {
@@ -32,7 +38,8 @@ async function fetchWeather(latitude, longitude) {
         let AlldataWeather = dataWeather.current;
         let temp = AlldataWeather.temperature_2m;
         
-        temperature.innerText = temp;
+        temperature.innerText = `${temp}°C`;
+        details.innerText = "Température actuelle";
 
     } catch (error) {
         console.error("Failed to catch data :", error);
