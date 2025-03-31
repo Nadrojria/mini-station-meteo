@@ -3,6 +3,8 @@ const gps = document.querySelector('#gps');
 const city = document.querySelector('#city');
 const temperature = document.querySelector('#temperature');
 const details = document.querySelector('#details');
+const precipitation = document.querySelector('#precipitation');
+const humidity = document.querySelector('#humidity');
 
 let coordinates = [];
 
@@ -26,6 +28,8 @@ async function fetchCoordinates(cityChoice) {
         gps.innerText = "-";
         temperature.innerText = "-";
         details.innerText = "Vérifiez le nom de la ville";
+        precipitation.innerText = "-";
+        humidity.innerText = "-";
     }
 }
 
@@ -36,9 +40,13 @@ async function fetchWeather(latitude, longitude) {
 
         let AlldataWeather = dataWeather.current;
         let temp = AlldataWeather.temperature_2m;
+        let precipitations = AlldataWeather.precipitation;
+        let humid = AlldataWeather.relative_humidity_2m;
         
         temperature.innerText = `${temp}°C`;
-        details.innerText = "Température actuelle";
+        details.innerText = "Informations actuelles";
+        precipitation.innerText = `${precipitations} mm`;
+        humidity.innerText = `${humid} %`;
 
     } catch (error) {
         console.error("Failed to catch data :", error);
