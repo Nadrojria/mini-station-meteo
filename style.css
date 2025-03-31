@@ -89,6 +89,12 @@ body {
     color: #5b8cbe;
 }
 
+.descriptionChart {
+    font-size: 15px;
+    font-weight: 200;
+    color: #053361;
+}
+
 .loading {
     opacity: 0.5;
     pointer-events: none;

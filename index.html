@@ -6,6 +6,7 @@
     <title>Mini-Station Météo</title>
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="weather-container">
@@ -19,6 +20,11 @@
         <div id="precipitation">- mm</div>
         <div id="humidity">- %</div>
         <div id="details">Mise à jour en cours...</div>
+        <hr>
+        <div id="myChartContainer">
+            <p class="descriptionChart">Températures heure par heure depuis 72h</p>
+            <canvas id="myChart"></canvas>
+        </div>
     </div>
 </body>
 </html>
